@@ -4,60 +4,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputMover : MonoBehaviour
-{
+/**
+ * This component moves its object when the player clicks the arrow keys.
+ */
+public class InputMover : MonoBehaviour {
     [Tooltip("Speed of movement, in meters per second")]
-    [SerializeField] private float speed = 10f;
-    private float oldSpeed;
+    [SerializeField] float speed = 10f;
+    float old_speed;
     private Transform objectTransform;
     private float x, y, z;
 
-    [SerializeField] private InputAction moveHorizontal = new InputAction(type: InputActionType.Button);
-    [SerializeField] private InputAction moveVertical = new InputAction(type: InputActionType.Button);
+    [SerializeField] InputAction moveHorizontal = new InputAction(type: InputActionType.Button);
+    [SerializeField] InputAction moveVertical  = new InputAction(type: InputActionType.Button);
+    // float x = gameObject.transform.localScale.x;
+    // float y = gameObject.transform.localScale.y;
+    // float z = gameObject.transform.localScale.z;
+    //Vector3 curr =  gameObject.transform.localScale;
 
-    public void Shrink()
-    {
-        transform.localScale = new Vector3(x / 2, y / 2, z);
+    public void shrink(){
+        transform.localScale = new Vector3(x/2,y/2,z);
+    }
+    
+    public void grow(){
+        transform.localScale = new Vector3(x,y,z);
     }
 
-    public void Grow()
-    {
-        transform.localScale = new Vector3(x, y, z);
-    }
-
-    public void SpeedUp()
-    {
-        oldSpeed = speed;
-        speed *= 3;
-    }
-
-    public void SlowDown()
-    {
-        speed = oldSpeed;
-    }
-
-    private void OnEnable()
-    {
+    void OnEnable()  {
         moveHorizontal.Enable();
         moveVertical.Enable();
     }
 
-    private void OnDisable()
-    {
+    void OnDisable()  {
         moveHorizontal.Disable();
         moveVertical.Disable();
     }
-
-    private void Start()
-    {
-        objectTransform = transform;
+    public void speed_up(){
+        old_speed  = speed;
+        speed *=3;
+    }
+    public void slow_down(){
+        speed = old_speed;
+    }
+    void Start(){
+        objectTransform = gameObject.transform;
         x = objectTransform.localScale.x;
         y = objectTransform.localScale.y;
         z = objectTransform.localScale.z;
     }
 
-    private void Update()
-    {
+    void Update() {
         float horizontal = moveHorizontal.ReadValue<float>();
         float vertical = moveVertical.ReadValue<float>();
         Vector3 movementVector = new Vector3(horizontal, vertical, 0) * speed * Time.deltaTime;
@@ -69,4 +64,5 @@ public class InputMover : MonoBehaviour
         //       it moves the object in the coordinate system of the world.
         // It makes a difference only if the object is rotated.
     }
+    
 }
