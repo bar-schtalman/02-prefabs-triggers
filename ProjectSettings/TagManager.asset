@@ -7,6 +7,11 @@ TagManager:
   - Enemy
   - Laser
   - Wall
+  - Lim
+  - right_lim
+  - left_lim
+  - top_lim
+  - bottom_lim
   layers:
   - Default
   - TransparentFX
